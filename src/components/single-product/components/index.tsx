@@ -6,6 +6,10 @@ import TechnicalDetails from "./technical";
 import { useRouter } from "next/router";
 import { useGetProductByCategory, useGetProductById } from "../hooks";
 import SimilarProductsSlider from "./similar-products";
+import PayInfoCard from "./payinfocard/PayInfoCard";
+import CommentSide from "./comment/CommentSide";
+import CardCommet from "./comment/CardComment";
+import Comments from "./comment/Comments";
 
 export default function SingleProductWidget() {
   const routerId = useRouter().query.id;
@@ -19,12 +23,20 @@ export default function SingleProductWidget() {
 
   return (
     <Box>
-      <SingleProduct product={oneProduct!}></SingleProduct>
+      <Box sx={{ display: "flex", flexDirection: "row", gap: 4 }}>
+        <SingleProduct product={oneProduct!}></SingleProduct>
+        <PayInfoCard />
+      </Box>
+
       <Tabs></Tabs>
       <TechnicalDetails detail={oneProduct!}></TechnicalDetails>
       <SimilarProductsSlider
         products={productsByCategory!}
       ></SimilarProductsSlider>
+      <Box marginBottom={"4px"} display={"flex"} flexDirection={"row"} gap={"20px"}>
+        <CommentSide />
+        <Comments />
+      </Box>
     </Box>
   );
 }

@@ -1,6 +1,7 @@
 import { BASE_URL } from "@/constants/urls";
 import axios from "axios";
-import { IProduct } from "../hooks/types";
+import { IProduct, commentType } from "../hooks/types";
+import { URL } from "../context";
 
 function shuffleArray(array: IProduct[]): IProduct[] {
   for (let i = array.length - 1; i > 0; i--) {
@@ -20,4 +21,20 @@ export async function getProductByCategory(
 ): Promise<IProduct[]> {
   const res = await axios.get(`${BASE_URL}/?categoryName=${category}&_limit=7`);
   return shuffleArray(res.data);
+}
+
+export const getCommentData = async (): Promise<commentType[]> => {
+  const response = await fetch(`${URL}/comments/`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch comments");
+  }
+  return response.json();
+};
+
+export function getRandomSubset(
+  arr: commentType[],
+  size: number
+): commentType[] {
+  const shuffled = arr.sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, size);
 }
